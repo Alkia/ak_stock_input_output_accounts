@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_category_form_view_inherit_stock_accounts" model="ir.ui.view">
+        <field name="name">product.category.form.inherit.ak.stock.input.output</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="stock_account.product_category_form_view_inherit_stock_account"/>
+        <field name="arch" type="xml">
+            <!-- Add Stock Input and Output accounts after the valuation account -->
+            <xpath expr="//field[@name='property_stock_valuation_account_id']" position="after">
+                <field name="property_stock_account_input_categ_id" 
+                       groups="account.group_account_readonly"
+                       options="{'no_create': True}"
+                       placeholder="e.g. Stock Interim (Received) / GRNI"/>
+                <field name="property_stock_account_output_categ_id" 
+                       groups="account.group_account_readonly"
+                       options="{'no_create': True}"
+                       placeholder="e.g. Stock Interim (Delivered)"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Add helpful note/label for the fields -->
+    <record id="product_category_form_view_stock_accounts_note" model="ir.ui.view">
+        <field name="name">product.category.form.ak.stock.accounts.note</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="ak_stock_input_output_accounts.product_category_form_view_inherit_stock_accounts"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='property_stock_account_input_categ_id']" position="before">
+                <label string="Stock Transit Accounts" class="fw-bold"/>
+                <div class="text-muted">
+                    These interim accounts are used when goods are received/delivered:
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
