@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Two sections: Account Properties (Income, Expense, Price Difference) and Account Stock Properties (Valuation, Input, Output) -->
     <record id="product_category_form_view_inherit_stock_accounts" model="ir.ui.view">
         <field name="name">product.category.form.inherit.ak.stock.input.output</field>
         <field name="model">product.category</field>
-        <field name="inherit_id" ref="stock_account.product_category_form_view_inherit_stock_account"/>
+        <field name="inherit_id" ref="stock_account.view_category_property_form"/>
         <field name="arch" type="xml">
-            <!-- Add Stock Input and Output accounts after the valuation account -->
-            <xpath expr="//field[@name='property_stock_valuation_account_id']" position="after">
-                <field name="property_stock_account_input_categ_id" 
-                       groups="account.group_account_readonly"
-                       options="{'no_create': True}"
-                       placeholder="e.g. Stock Interim (Received) / GRNI"/>
-                <field name="property_stock_account_output_categ_id" 
-                       groups="account.group_account_readonly"
-                       options="{'no_create': True}"
-                       placeholder="e.g. Stock Interim (Delivered)"/>
+            <!-- Replace original group with "Account Properties" (Income, Expense, Price Difference) -->
+            <xpath expr="//group[.//field[@name='property_stock_valuation_account_id']]" position="replace">
+                <group string="Account Properties" name="account_properties" groups="account.group_account_readonly">
+                    <field name="property_stock_valuation_account_id" string="Stock Account" options="{'no_create': True}"/>
+                    <field name="property_stock_variation_account_id" string="Stock Variation" options="{'no_create': True}"/>
+                    <field name="property_account_income_categ_id" options="{'no_create': True}"/>
+                    <field name="property_account_expense_categ_id" options="{'no_create': True}"/>
+                    <field name="property_stock_account_price_difference_categ_id"
+                           domain="[('account_type', 'in', ['expense', 'expense_direct_cost', 'expense_depreciation', 'income', 'income_other', 'asset_current', 'liability_current']), ('company_ids', 'in', [allowed_company_ids[0]])]"
+                           options="{'no_create': True}"
+                           placeholder="Price variance (PO vs Bill)"/>
+                </group>
             </xpath>
-        </field>
-    </record>
-    
-    <!-- Add helpful note/label for the fields -->
-    <record id="product_category_form_view_stock_accounts_note" model="ir.ui.view">
-        <field name="name">product.category.form.ak.stock.accounts.note</field>
-        <field name="model">product.category</field>
-        <field name="inherit_id" ref="ak_stock_input_output_accounts.product_category_form_view_inherit_stock_accounts"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='property_stock_account_input_categ_id']" position="before">
-                <label string="Stock Transit Accounts" class="fw-bold"/>
-                <div class="text-muted">
-                    These interim accounts are used when goods are received/delivered:
-                </div>
+            <!-- Add "Account Stock Properties" section right after Account Properties -->
+            <xpath expr="//group[@name='account_properties']" position="after">
+                <group string="Account Stock Properties" name="account_stock_properties" groups="account.group_account_readonly">
+                    <field name="property_stock_valuation_account_id" options="{'no_create': True}"/>
+                    <field name="property_stock_account_input_categ_id"
+                           domain="[('account_type', 'in', ['asset_current', 'liability_current']), ('company_ids', 'in', [allowed_company_ids[0]])]"
+                           options="{'no_create': True}"
+                           placeholder="e.g. Stock Interim (Received) / GRNI"/>
+                    <field name="property_stock_account_output_categ_id"
+                           domain="[('account_type', 'in', ['asset_current', 'liability_current']), ('company_ids', 'in', [allowed_company_ids[0]])]"
+                           options="{'no_create': True}"
+                           placeholder="e.g. Stock Interim (Delivered)"/>
+                </group>
             </xpath>
         </field>
     </record>

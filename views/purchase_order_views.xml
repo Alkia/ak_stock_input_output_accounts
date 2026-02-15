@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add "Journal Items" tab to Purchase Order form -->
+    <record id="view_purchase_order_form_journal_items" model="ir.ui.view">
+        <field name="name">purchase.order.form.journal.items</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[last()]" position="after">
+                <page string="Journal Items" name="journal_items">
+                    <field name="account_move_line_ids" nolabel="1" readonly="1">
+                        <tree decoration-muted="balance == 0" create="false" delete="false" edit="false">
+                            <field name="date"/>
+                            <field name="account_id"/>
+                            <field name="name"/>
+                            <field name="debit"/>
+                            <field name="credit"/>
+                            <field name="balance"/>
+                            <field name="currency_id" column_invisible="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

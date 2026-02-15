@@ -1,5 +1,5 @@
 {
-    'name': 'AK Stock Input/Output Accounts',
+    'name': 'Restore Stock Input/Output Accounts in v19',
     'version': '19.0.1.0.0',
     'category': 'Inventory',
     'summary': 'Restore Stock Input and Output Account fields to Product Categories',
@@ -19,9 +19,10 @@
     """,
     'author': 'Alkia IT Services',
     'website': 'https://www.alkia.net',
-    'depends': ['stock_account'],
+    'depends': ['stock_account', 'purchase'],
     'data': [
         'views/product_category_views.xml',
+        'views/purchase_order_views.xml',
     ],
     'installable': True,
     'application': False,
