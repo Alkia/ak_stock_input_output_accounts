@@ -28,6 +28,14 @@ This module restores the **Stock Input Account** and **Stock Output Account** fi
 **Author:** Alkia IT Services  
 **Website:** https://www.alkia.net
 
+## Product Category Account Settings - Before & After
+
+### Before Module Installation
+![Before Installation](static/description/Product%20category%20standard%20v19.png)
+
+### After Module Installation
+![After Installation](static/description/alk_Product_Category_New_Feilds.png)
+
 ## Why This Module?
 In Odoo 19, the stock valuation system was redesigned and the separate Stock Input/Output accounts were removed from product categories. This module brings them back for users who:
 - Are migrating from older Odoo versions
