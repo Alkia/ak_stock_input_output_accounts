@@ -1,6 +1,6 @@
 ################################################################################
 # Module:        Stock Input/Output Accounts Module for Odoo 19                   
-# Version:       19.0.2                              
+# Version:       19.0.2.16.0                              
 # Last Updated:  2026-01-04                          
 # Author:        M
 # Company:       Alkia IT Services Co., Ltd.

@@ -2,7 +2,7 @@
 <!--
 ################################################################################
 # Module:        Stock Input/Output Accounts Module for Odoo 19                   
-# Version:       19.0.2                              
+# Version:       19.0.2.16.0                      
 # Last Updated:  2026-01-04                          
 # Author:        M
 # Company:       Alkia IT Services Co., Ltd.
@@ -27,30 +27,29 @@
         <field name="model">product.category</field>
         <field name="inherit_id" ref="stock_account.view_category_property_form"/>
         <field name="arch" type="xml">
-            <!-- Replace original group with "Account Properties" (Income, Expense, Price Difference) -->
+            <!-- Account Properties: Stock Account only once (= Stock Valuation Account), Stock Variation, Income, Expense, Price Difference. -->
             <xpath expr="//group[.//field[@name='property_stock_valuation_account_id']]" position="replace">
                 <group string="Account Properties" name="account_properties" groups="account.group_account_readonly">
                     <field name="property_stock_valuation_account_id" string="Stock Account" options="{'no_create': True}"/>
-                    <field name="property_stock_variation_account_id" string="Stock Variation" options="{'no_create': True}"/>
+                    <field name="property_ak_stock_variation_account_id" string="Stock Variation" options="{'no_create': True}"/>
                     <field name="property_account_income_categ_id" options="{'no_create': True}"/>
                     <field name="property_account_expense_categ_id" options="{'no_create': True}"/>
-                    <field name="property_stock_account_price_difference_categ_id"
-                           domain="[('account_type', 'in', ['expense', 'expense_direct_cost', 'expense_depreciation', 'income', 'income_other', 'asset_current', 'liability_current']), ('company_ids', 'in', [allowed_company_ids[0]])]"
+                    <field name="property_ak_stock_price_difference_categ_id"
+                           string="Price Difference Account"
                            options="{'no_create': True}"
-                           placeholder="Price variance (PO vs Bill)"/>
+                           invisible="property_valuation != 'manual_periodic'"/>
                 </group>
             </xpath>
-            <!-- Add "Account Stock Properties" section right after Account Properties -->
+            <!-- Account Stock Properties: Input and Output only (no duplicate Stock Account). -->
             <xpath expr="//group[@name='account_properties']" position="after">
                 <group string="Account Stock Properties" name="account_stock_properties" groups="account.group_account_readonly">
-                    <field name="property_stock_valuation_account_id" options="{'no_create': True}"/>
                     <field name="property_stock_account_input_categ_id"
-                           domain="[('account_type', 'in', ['asset_current', 'liability_current']), ('company_ids', 'in', [allowed_company_ids[0]])]"
                            options="{'no_create': True}"
+                           required="property_valuation == 'real_time'"
                            placeholder="e.g. Stock Interim (Received) / GRNI"/>
                     <field name="property_stock_account_output_categ_id"
-                           domain="[('account_type', 'in', ['asset_current', 'liability_current']), ('company_ids', 'in', [allowed_company_ids[0]])]"
                            options="{'no_create': True}"
+                           required="property_valuation == 'real_time'"
                            placeholder="e.g. Stock Interim (Delivered)"/>
                 </group>
             </xpath>

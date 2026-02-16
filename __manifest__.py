@@ -1,6 +1,6 @@
 ################################################################################
 # Module:        Stock Input/Output Accounts Module for Odoo 19                   
-# Version:       19.0.2                              
+# Version:       19.0.2.16.0                              
 # Last Updated:  2026-01-04                          
 # Author:        M
 # Company:       Alkia IT Services Co., Ltd.
@@ -20,7 +20,7 @@
 
 {
     'name': 'Restore Stock Input/Output Accounts in v19',
-    'version': '19.0.1.0.0',
+    'version': '19.0.2.16.0',
     'category': 'Inventory',
     'summary': 'Restore Stock Input and Output Account fields to Product Categories',
     'description': """
@@ -42,7 +42,7 @@
     'depends': ['stock_account', 'purchase'],
     'data': [
         'views/product_category_views.xml',
-        'views/purchase_order_views.xml',
+        # 'views/purchase_order_views.xml',  # requires purchase.view_purchase_order_form; enable when Purchase app is installed and view exists
     ],
     'installable': True,
     'application': False,
